@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Say hello world
-        shell: bash
+        shell: bash # Optional
         run: echo Welcome to the Github Actions workshop !
 
   unit_tests:
@@ -28,5 +28,13 @@ jobs:
         run: make tests_run
 
       - name: Get coverage
+        if: ${{ always() }} #Always upload logs even on lose
         shell: bash
-        run: make coverage
+        run: make coverage > coverage_outputs
+
+      - name: Upload coverage artifact
+        if: ${{ always() }} #Always upload logs even on lose
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage_outputs
+          path: ./coverage_outputs
