@@ -49,7 +49,7 @@ jobs:
 
       - name: Run function tests
         shell: bash # Optional
-        run: make && ./function_tests.sh > functional_tests_outputs
+        run: make && ./function_test.sh > functional_tests_outputs
 
       - name: Upload tests artifacts
         if: ${{ always() }} #Always upload logs even on lose
