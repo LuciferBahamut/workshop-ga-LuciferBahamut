@@ -24,12 +24,12 @@ jobs:
         uses: actions/Checkout@v2
 
       - name: Run tests
-        shell: bash
+        shell: bash # Optional
         run: make tests_run
 
       - name: Get coverage
         if: ${{ always() }} #Always upload logs even on lose
-        shell: bash
+        shell: bash # Optional
         run: make coverage > coverage_outputs
 
       - name: Upload coverage artifact
@@ -38,3 +38,22 @@ jobs:
         with:
           name: coverage_outputs
           path: ./coverage_outputs
+
+  function-tests: 
+    runs-on: ubuntu-20.04
+    container: docker://epitechcontent/epitest-docker
+
+    steps:
+      - name: Checkout
+        uses: actions/Checkout@v2
+
+      - name: Run function tests
+        shell: bash # Optional
+        run: make && ./function_tests.sh > functional_tests_outputs
+
+      - name: Upload tests artifacts
+        if: ${{ always() }} #Always upload logs even on lose
+        uses: actions/upload-artifact@v2
+        with:
+          name: functional_tests_outputs
+          path: ./functional_tests_outputs
